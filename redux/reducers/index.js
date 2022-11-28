@@ -2,7 +2,7 @@ import eventChangeReducer from "./eventChangeReducer";
 import { combineReducers } from "redux";
 
 const reducers = combineReducers({
-  change: eventChangeReducer,
+  eventChangeReducer: eventChangeReducer,
 });
 
 export default reducers;

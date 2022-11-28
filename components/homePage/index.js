@@ -1,29 +1,24 @@
 import { Text, View, Button } from "react-native";
 import { connect } from "react-redux";
-import changeEvent from "../../redux/actions/index.js";
-import reducers from "../../redux/reducers/index.js";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
 function HomePage() {
-  const dispatch = useDispatch();
-  const change = useSelector((state) => state.change);
+  const change = useSelector((state) => state.eventChangeReducer.change);
   return (
     <View>
       <Text>
         {
           // this.props.change
-          change ? 1 : 0
+          change ? "true" : "false"
         }
       </Text>
-      <Button
-        title="change"
-        onPress={() => {
-          dispatch(reducers.change(!change));
-        }}
-      />
     </View>
   );
 }
 
-export default HomePage;
+const mapStateToProps = (state) => {
+  return {
+    change: state.eventChangeReducer.change,
+  };
+};
+
+export default connect(mapStateToProps)(HomePage);
