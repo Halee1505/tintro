@@ -1,4 +1,3 @@
-import { changeEvent } from "../actions";
 import { EVENT_CHANGE } from "../const/index";
 const initialState = {
   change: false,
