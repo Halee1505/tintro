@@ -10,16 +10,19 @@
   },
   "dependencies": {
     "@react-native-community/checkbox": "^0.5.14",
+    "@react-native-community/slider": "^4.3.3",
     "@react-navigation/native": "^6.0.16",
     "@react-navigation/native-stack": "^6.9.4",
     "@reduxjs/toolkit": "^1.9.0",
     "expo": "~47.0.8",
+    "expo-checkbox": "~2.2.2",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
+    "react-intl": "^6.2.2",
     "react-native": "0.70.5",
+    "react-native-range-slider": "^0.1.2",
     "react-redux": "^8.0.5",
-    "redux": "^4.2.0",
-    "expo-checkbox": "~2.2.2"
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

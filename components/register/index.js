@@ -56,6 +56,7 @@ function Register({ navigation }) {
             setNewPassword({ ...NewPassword, email: text })
           }
           placeholder="Email"
+          keyboardType={"email-address"}
         />
         <TextInput
           style={style.loginFormInput}
@@ -63,6 +64,7 @@ function Register({ navigation }) {
             setNewPassword({ ...NewPassword, phone: text })
           }
           placeholder="Số điện thoại"
+          keyboardType={"numeric"}
         />
         <TextInput
           style={style.loginFormInput}
@@ -70,6 +72,7 @@ function Register({ navigation }) {
             setNewPassword({ ...NewPassword, NewPassword: text })
           }
           placeholder="Mật khẩu mới"
+          secureTextEntry={true}
         />
         <TextInput
           style={style.loginFormInput}
@@ -77,6 +80,7 @@ function Register({ navigation }) {
             setNewPassword({ ...NewPassword, ConfirmPassword: text })
           }
           placeholder="Xác nhận mật khẩu"
+          secureTextEntry={true}
         />
       </View>
 

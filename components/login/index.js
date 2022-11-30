@@ -61,7 +61,7 @@ function Login({ navigation }) {
         />
         <TextInput
           style={style.loginFormInput}
-          keyboardType="password"
+          secureTextEntry={true}
           onChangeText={(text) =>
             setLoginData({ ...LoginData, password: text })
           }
@@ -92,14 +92,14 @@ function Login({ navigation }) {
           </Pressable>
         </View>
       </View>
-      <View style={style.action}>
+      <View>
         <Pressable
           style={
             LoginData.phoneNumber.length > 0 && LoginData.password.length > 0
               ? style.LoginButtonPrimary
               : style.LoginButtonSecondary
           }
-          onPress={() => navigation.navigate("login")}
+          onPress={() => navigation.navigate("home-page")}
         >
           <Text style={style.ButtonText}>Đăng nhập</Text>
         </Pressable>

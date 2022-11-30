@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 //import components
-import HomePage from "./components/homePage/index.js";
+import Welcome from "./components/welcome/index.js";
 import Button from "./components/button/index.js";
 import Login from "./components/login/index.js";
 import ForgotPassword from "./components/forgotPassword";
@@ -16,6 +16,7 @@ import checkMail from "./components/forgotPassword/checkMail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Register from "./components/register";
 import Otp from "./components/register/otp";
+import HomePage from "./components/homePage";
 export default function App() {
   return (
     <Provider store={store}>
@@ -23,16 +24,94 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
-            component={HomePage}
-            options={{ title: "Welcome" }}
+            component={Welcome}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
           />
           <Stack.Screen name="Profile" component={Button} />
-          <Stack.Screen name="login" component={Login} />
-          <Stack.Screen name="forgot-password" component={ForgotPassword} />
-          <Stack.Screen name="Check-mail" component={checkMail} />
-          <Stack.Screen name="new-password" component={NewPassword} />
-          <Stack.Screen name="register" component={Register} />
-          <Stack.Screen name="otp" component={Otp} />
+          <Stack.Screen
+            name="login"
+            initialRouteName="Home"
+            component={Login}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="forgot-password"
+            component={ForgotPassword}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Check-mail"
+            component={checkMail}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="new-password"
+            component={NewPassword}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="register"
+            component={Register}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="otp"
+            component={Otp}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="home-page"
+            component={HomePage}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

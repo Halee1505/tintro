@@ -1,37 +1,41 @@
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import { connect } from "react-redux";
-import { useSelector } from "react-redux";
+import { View, StyleSheet, BackHandler } from "react-native";
+import Header from "../header";
+import Navigator from "../navigator";
+import Filter from "./filter";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { SHOW_FILTER } from "../../redux/const";
 
 function HomePage({ navigation }) {
-  const change = useSelector((state) => state.eventChangeReducer.change);
+  const dispatch = useDispatch();
+  const isShowFilter = useSelector(
+    (state) => state.showFilterReducer.isShowFilter
+  );
+
+  useEffect(() => {
+    const backAction = () => {
+      if (isShowFilter) {
+        dispatch({ type: SHOW_FILTER, payload: false });
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [isShowFilter]);
+
   return (
     <View style={style.container}>
-      <View style={style.logo}>
-        <Image
-          source={require("../../assets/logo.png")}
-          style={style.logoImage}
-        />
-        <Image
-          source={require("../../assets/name.png")}
-          style={style.logoName}
-        />
-      </View>
-
-      <View style={style.action}>
-        <Text style={style.text}>Bạn là:</Text>
-        <Pressable
-          style={style.PressablePrimary}
-          onPress={() => navigation.navigate("login")}
-        >
-          <Text style={style.ButtonText}>Người tìm trọ</Text>
-        </Pressable>
-        <Pressable
-          style={style.PressableSecondary}
-          onPress={() => navigation.navigate("login")}
-        >
-          <Text style={style.ButtonText}>Người cho thuê</Text>
-        </Pressable>
-      </View>
+      <Header />
+      <Navigator navigation={navigation} />
+      {isShowFilter ? <Filter /> : null}
     </View>
   );
 }
@@ -41,67 +45,20 @@ const style = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
-  logo: {
-    width: 118,
-    height: "70%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logoImage: {
-    width: 62,
-    height: 62,
-  },
-  logoName: {
-    width: 118,
-    height: 48,
-  },
-  text: {
-    width: 49,
-    height: 20,
-    alignSelf: "flex-start",
-  },
-  action: {
-    width: 314,
-    height: 100,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  PressablePrimary: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 314,
-    height: 44,
-    borderRadius: 8,
-    backgroundColor: "#3772FF",
-    marginTop: 6,
-    marginBottom: 6,
-  },
-  PressableSecondary: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 314,
-    height: 44,
-    borderRadius: 8,
-    backgroundColor: "#ABB4BD",
-  },
-  ButtonText: {
-    fontSize: 14,
-    color: "#fff",
-  },
+  header: {},
 });
+
 const mapStateToProps = (state) => {
   return {
-    change: state.eventChangeReducer.change,
+    isShowFilter: state.showFilterReducer.isShowFilter,
   };
 };
 
-export default connect(mapStateToProps)(HomePage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleShowFilter: (value) => dispatch(showFilterReducer(value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
