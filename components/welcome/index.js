@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import { connect } from "react-redux";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { USER_ROLE } from "../../redux/const";
 
 function Welcome({ navigation }) {
   const change = useSelector((state) => state.eventChangeReducer.change);
+  const dispatch = useDispatch();
   return (
     <View style={style.container}>
       <View style={style.logo}>
@@ -21,13 +23,22 @@ function Welcome({ navigation }) {
         <Text style={style.text}>Bạn là:</Text>
         <Pressable
           style={style.PressablePrimary}
-          onPress={() => navigation.navigate("login")}
+          onPress={() => {
+            dispatch({ type: USER_ROLE, payload: "RENTER" });
+            navigation.navigate("login");
+          }}
         >
           <Text style={style.ButtonText}>Người tìm trọ</Text>
         </Pressable>
         <Pressable
           style={style.PressableSecondary}
-          onPress={() => navigation.navigate("login")}
+          onPress={() => {
+            dispatch({
+              type: USER_ROLE,
+              payload: "LEASER",
+            });
+            navigation.navigate("login");
+          }}
         >
           <Text style={style.ButtonText}>Người cho thuê</Text>
         </Pressable>
@@ -104,4 +115,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Welcome);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUserRole: (role) => dispatch(userRoleReducer(role)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Welcome);

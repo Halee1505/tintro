@@ -3,6 +3,8 @@ import {
   REGISTER_PHONE_NUMBER,
   SET_FILTER_VALUE,
   SHOW_FILTER,
+  USER_ROLE,
+  LOGIN_USER,
 } from "../const";
 
 export function changeEvent(event) {
@@ -30,5 +32,19 @@ export function handleShowFilter(isShowFilter) {
   return {
     type: SHOW_FILTER,
     payload: isShowFilter,
+  };
+}
+
+export function setUserRole(role) {
+  return {
+    type: USER_ROLE,
+    payload: role,
+  };
+}
+
+export function loginUser(user) {
+  return {
+    type: LOGIN_USER,
+    payload: user,
   };
 }

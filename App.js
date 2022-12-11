@@ -17,6 +17,10 @@ import NewPassword from "./components/forgotPassword/newPassword";
 import Register from "./components/register";
 import Otp from "./components/register/otp";
 import HomePage from "./components/homePage";
+import LeaserHomePage from "./components/leaserHomePage";
+import RoomDetail from "./components/homePage/roomDetail";
+import AddHome from "./components/leaser/addHome";
+import AddHomeNext from "./components/leaser/addHomeNext";
 export default function App() {
   return (
     <Provider store={store}>
@@ -102,10 +106,55 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="home-page"
+            name="RENTER/home-page"
             component={HomePage}
             options={{
               title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+
+          <Stack.Screen
+            name="room-detail"
+            component={RoomDetail}
+            options={{
+              title: "Chi tiết phòng",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/home-page"
+            component={LeaserHomePage}
+            options={{
+              title: "Phòng trọ của tôi",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/add-home"
+            component={AddHome}
+            options={{
+              title: "Thêm phòng trọ",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/add-home/next"
+            component={AddHomeNext}
+            options={{
+              title: "Thêm phòng trọ",
 
               headerTitleStyle: {
                 fontWeight: "bold",

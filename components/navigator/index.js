@@ -1,13 +1,15 @@
 import { connect } from "react-redux";
-
+import { useSelector } from "react-redux";
 import { StyleSheet, View, Image, Text, Pressable } from "react-native";
 
 function Navigator({ navigation }) {
+  const user = useSelector((state) => state.loginUserReducer);
+  console.log("user", user.user.mRole);
   return (
     <View style={style.container}>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate("home-page")}
+        onPress={() => navigation.navigate(user.user.mRole + "/home-page")}
       >
         <Image
           source={require("../../assets/home.png")}
@@ -81,5 +83,10 @@ const style = StyleSheet.create({
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
   },
 });
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginUserReducer,
+  };
+};
 
-export default connect()(Navigator);
+export default connect(mapStateToProps)(Navigator);

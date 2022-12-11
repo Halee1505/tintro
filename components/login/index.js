@@ -9,13 +9,41 @@ import {
 import { connect } from "react-redux";
 import CheckBox from "expo-checkbox";
 import { useState } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
+import userApi from "../../api/user";
+import { LOGIN_USER } from "../../redux/const";
 function Login({ navigation }) {
+  const userRole = useSelector((state) => state.userRoleReducer.role);
+  const dispatch = useDispatch();
   const [LoginData, setLoginData] = useState({
     phoneNumber: "",
     password: "",
     remember: false,
   });
+
+  const handleLogin = () => {
+    if (LoginData.phoneNumber === "" || LoginData.password === "") {
+      alert("Vui lòng nhập đầy đủ thông tin");
+    } else {
+      userApi
+        .login({
+          mPhoneNumber: LoginData.phoneNumber,
+          mPassword: LoginData.password,
+          mRole: userRole,
+        })
+        .then((res) => {
+          if (res.statusCode === 200) {
+            dispatch({ type: LOGIN_USER, payload: res.data });
+            navigation.navigate(userRole + "/home-page");
+          } else {
+            alert("Sai tài khoản hoặc mật khẩu");
+          }
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    }
+  };
   return (
     <View style={style.container}>
       <View style={style.logo}>
@@ -99,7 +127,7 @@ function Login({ navigation }) {
               ? style.LoginButtonPrimary
               : style.LoginButtonSecondary
           }
-          onPress={() => navigation.navigate("home-page")}
+          onPress={handleLogin}
         >
           <Text style={style.ButtonText}>Đăng nhập</Text>
         </Pressable>
@@ -226,7 +254,14 @@ const style = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     change: state.eventChangeReducer.change,
+    userRole: state.userRoleReducer.userRole,
   };
 };
 
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch(loginUserReducer(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

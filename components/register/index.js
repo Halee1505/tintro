@@ -9,9 +9,12 @@ import {
 import { connect } from "react-redux";
 import CheckBox from "expo-checkbox";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { REGISTER_PHONE_NUMBER } from "../../redux/const";
+import { useSelector, useDispatch } from "react-redux";
+import { REGISTER_PHONE_NUMBER, USER_ROLE } from "../../redux/const";
+import userApi from "../../api/user";
+
 function Register({ navigation }) {
+  const userRole = useSelector((state) => state.userRoleReducer.role);
   const dispatch = useDispatch();
   const [NewPassword, setNewPassword] = useState({
     username: "",
@@ -20,7 +23,7 @@ function Register({ navigation }) {
     NewPassword: "",
     ConfirmPassword: "",
   });
-
+  console.log(userRole);
   const handleSend = () => {
     if (
       NewPassword.username !== "" &&
@@ -29,12 +32,27 @@ function Register({ navigation }) {
       NewPassword.NewPassword !== "" &&
       NewPassword.ConfirmPassword !== ""
     ) {
-      if (NewPassword.NewPassword === NewPassword.ConfirmPassword) {
+      if (
+        NewPassword.NewPassword === NewPassword.ConfirmPassword &&
+        userRole !== ""
+      ) {
         dispatch({
           type: REGISTER_PHONE_NUMBER,
           payload: NewPassword.phone,
         });
-        navigation.navigate("otp");
+        userApi
+          .createUser({
+            mUserName: NewPassword.username,
+            mEmail: NewPassword.email,
+            mPassword: NewPassword.NewPassword,
+            mPhoneNumber: NewPassword.phone,
+            mRole: userRole,
+          })
+          .then((res) => {
+            console.log(res);
+
+            navigation.navigate("otp");
+          });
       }
     }
   };
@@ -216,6 +234,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     registerPhoneNumber: (phoneNumber) =>
       dispatch(registerPhoneReducer(phoneNumber)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    userRole: state.userRoleReducer.userRole,
   };
 };
 

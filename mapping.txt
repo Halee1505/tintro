@@ -1,0 +1,47 @@
+Phòng trọ:
+	-id
+	-id người cho thuê
+	-id người thuê
+	-Tên
+	-Hình ảnh
+	-Giá thuê
+	-Địa chỉ
+	-Diện tích
+	-Ngày đăng
+	-Tiện ích
+	-Mô tả
+	-Giá điện
+	-Giá nước
+	-Ngày chốt điện nước
+	-Trạng thái
+
+Yêu cầu sửa chữa:
+	-id
+	-id phòng
+	-Tiêu đề
+	-Mô tả
+	-Trạng thái
+
+Người thuê trọ / cho thuê trọ:
+	-id
+	-tên
+	-sđt
+	-mật khẩu
+	-Role
+Hóa đơn:
+	-id
+	-id phòng
+	-id người cho thuê
+	-id người thuê
+	-tháng thuê
+	-số điện từ
+	-số điện đến
+	-số nước từ
+	-số nước đến
+	-tổng số điện
+	-tổng số nước
+	-tổng số tiền 
+	-Trạng thái
+
+	
+	

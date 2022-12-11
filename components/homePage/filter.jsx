@@ -12,9 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { SHOW_FILTER, SET_FILTER_VALUE } from "../../redux/const";
 import { useState } from "react";
-const moneyFormatter = (money) => {
-  return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-};
+import { moneyFormatter } from "../../utils/moneyFormatter";
 function Filter() {
   const dispatch = useDispatch();
   const filterValue = useSelector(
@@ -54,7 +52,7 @@ function Filter() {
       <Pressable style={style.container} onPress={(e) => e.stopPropagation()}>
         <View style={style.filterOverlay}>
           <Text style={style.text}>
-            Giá từ: {moneyFormatter(filterValue.fromPrice)}đ
+            Giá từ: {moneyFormatter(filterValue.fromPrice)}
           </Text>
           <View>
             <Slider
@@ -74,7 +72,7 @@ function Filter() {
             />
           </View>
           <Text style={style.text}>
-            Đến: {moneyFormatter(filterValue.toPrice)}đ
+            Đến: {moneyFormatter(filterValue.toPrice)}
           </Text>
           <View>
             <Slider
