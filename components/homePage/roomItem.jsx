@@ -1,12 +1,14 @@
 import { StyleSheet, Image, Text, View, Pressable } from "react-native";
 import moment from "moment";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 import { moneyFormatter } from "../../utils/moneyFormatter";
 function RoomItem({ room, navigation }) {
   return (
     <Pressable
       style={styles.container}
       onPress={() => {
-        navigation.navigate("room-detail", { roomId: room.mId });
+        navigation.navigate("room-detail", { roomId: room._id });
       }}
     >
       <Image
@@ -23,14 +25,11 @@ function RoomItem({ room, navigation }) {
           justifyContent: "flex-start",
           marginLeft: 10,
           marginTop: 3,
+          alignItems: "center",
         }}
       >
-        <Image
-          source={require("../../assets/location.png")}
-          style={styles.locationIcon}
-          resizeMethod="scale"
-          resizeMode="contain"
-        />
+        <Icon name="globe" size={14} color="black" />
+
         <Text style={styles.address}>{room.mAddress}</Text>
       </View>
       <View
@@ -41,22 +40,24 @@ function RoomItem({ room, navigation }) {
           marginTop: 3,
         }}
       >
-        <View style={styles.horizontal}>
-          <Image
-            source={require("../../assets/home.png")}
-            resizeMethod="scale"
-            resizeMode="contain"
-            style={styles.homeIcon}
-          />
+        <View
+          style={{
+            ...styles.horizontal,
+            alignItems: "center",
+          }}
+        >
+          <Icon name="home" size={14} color="black" />
+
           <Text style={styles.area}>{room.mArea}m2</Text>
         </View>
-        <View style={styles.horizontal}>
-          <Image
-            source={require("../../assets/clock.png")}
-            style={styles.clockIcon}
-            resizeMethod="scale"
-            resizeMode="contain"
-          />
+        <View
+          style={{
+            ...styles.horizontal,
+            alignItems: "center",
+          }}
+        >
+          <Icon name="clock-o" size={14} color="black" />
+
           <Text style={styles.postTime}>
             {moment(new Date() - new Date(room.mCreated)).format("HH:SS")} phút
             trước
@@ -114,12 +115,15 @@ const styles = StyleSheet.create({
   },
   address: {
     fontSize: 16,
+    marginLeft: 5,
   },
   area: {
     fontSize: 12,
+    marginLeft: 5,
   },
   postTime: {
     fontSize: 12,
+    marginLeft: 5,
   },
   locationIcon: {
     width: 9.1,

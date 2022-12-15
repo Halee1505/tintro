@@ -5,13 +5,22 @@ import {
   View,
   ScrollView,
   Dimensions,
+  Pressable,
+  Alert,
 } from "react-native";
-import roomApi from "../../api/room";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { Extension } from "../../model/room.js";
 import { moneyFormatter } from "../../utils/moneyFormatter";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { extension } from "../../utils/extension";
+import roomApi from "../../api/room";
+import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+
 function RoomDetail({ navigation, route }) {
+  const user = useSelector((state) => state.loginUserReducer);
+  const [change, setChange] = useState(false);
   const { roomId } = route.params;
   const [room, setRoom] = useState({});
   useEffect(() => {
@@ -20,7 +29,39 @@ function RoomDetail({ navigation, route }) {
         setRoom(res);
       });
     }
-  }, [route]);
+  }, [route, change]);
+
+  const registerRoom = () => {
+    if (room.mRenterId === user.user._id) {
+      Alert.alert("Thông báo", "Bạn đã đăng ký phòng này rồi");
+      return;
+    }
+    Alert.alert("Thông báo", "Bạn có muốn đăng ký phòng này không?", [
+      {
+        text: "Hủy",
+        onPress: () => {},
+      },
+      {
+        text: "Đồng ý",
+        onPress: () => {
+          roomApi
+            .updateRoom(roomId, {
+              mRenterId: user.user._id,
+              mStatus:
+                room.mCurPeople + 1 == room.mMaxPeople ? "RENTED" : "AVAILABLE",
+              mCurPeople: room.mCurPeople + 1,
+            })
+            .then((res) => {
+              Alert.alert("Thông báo", "Đăng ký phòng thành công");
+              setChange(!change);
+            })
+            .catch((err) => {
+              Alert.alert("Thông báo", "Đăng ký phòng thất bại");
+            });
+        },
+      },
+    ]);
+  };
   return Object.keys(room).length > 0 ? (
     <ScrollView style={style.container}>
       <View
@@ -63,13 +104,7 @@ function RoomDetail({ navigation, route }) {
           }}
         >
           <View style={style.textIconOverlay}>
-            <Image
-              source={require("../../assets/money.png")}
-              resizeMethod="scale"
-              resizeMode="contain"
-              style={style.icon}
-            />
-
+            <Icon name="money" size={18} color="black" />
             <Text
               style={{
                 ...style.roomDetailText,
@@ -80,21 +115,12 @@ function RoomDetail({ navigation, route }) {
             </Text>
           </View>
           <View style={style.textIconOverlay}>
-            <Image
-              source={require("../../assets/home.png")}
-              resizeMethod="scale"
-              resizeMode="contain"
-              style={style.icon}
-            />
+            <Icon name="home" size={18} color="black" />
             <Text style={style.roomDetailText}>{room.mArea}m2</Text>
           </View>
           <View style={style.textIconOverlay}>
-            <Image
-              source={require("../../assets/clock.png")}
-              resizeMethod="scale"
-              resizeMode="contain"
-              style={style.icon}
-            />
+            <Icon name="clock-o" size={18} color="black" />
+
             <Text style={style.roomDetailText}>
               {moment(new Date() - new Date(room.mCreated)).format("HH:SS")}{" "}
               phút
@@ -102,12 +128,7 @@ function RoomDetail({ navigation, route }) {
           </View>
         </View>
         <View style={style.textIconOverlay}>
-          <Image
-            source={require("../../assets/location.png")}
-            resizeMethod="scale"
-            resizeMode="contain"
-            style={style.icon}
-          />
+          <Icon name="globe" size={18} color="black" />
           <Text style={style.roomDetailText}>{room.mAddress}</Text>
         </View>
       </View>
@@ -132,89 +153,28 @@ function RoomDetail({ navigation, route }) {
             ...style.horizontal,
             flexWrap: "wrap",
             width: "100%",
+            borderWidth: 1,
+            borderColor: "#E5E5E5",
+            borderRadius: 10,
+            padding: 10,
           }}
         >
-          {room.mExtension?.map((extension, index) => {
-            if (extension) {
-              const { mIcon, mCode, mName } = Extension[extension];
-              if (mCode === "ELECTRIC") {
-                return (
-                  <View
-                    key={mCode}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "25%",
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Image
-                      source={{
-                        uri: mIcon,
-                      }}
-                      resizeMethod="scale"
-                      resizeMode="contain"
-                      style={style.extensionIcon}
-                    />
-                    <Text style={style.roomDetailText}>
-                      {mName} {moneyFormatter(room.mElectricityPrice)}
-                    </Text>
-                  </View>
-                );
-              } else if (mCode === "WATER") {
-                return (
-                  <View
-                    key={mCode}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "25%",
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Image
-                      source={{
-                        uri: mIcon,
-                      }}
-                      resizeMethod="scale"
-                      resizeMode="contain"
-                      style={style.extensionIcon}
-                    />
-                    <Text style={style.roomDetailText}>
-                      {mName} {moneyFormatter(room.mWaterPrice)}
-                    </Text>
-                  </View>
-                );
-              } else {
-                return (
-                  <View
-                    key={mCode}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "25%",
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Image
-                      source={{
-                        uri: mIcon,
-                      }}
-                      resizeMethod="scale"
-                      resizeMode="contain"
-                      style={style.extensionIcon}
-                    />
-                    <Text style={style.roomDetailText}>{mName}</Text>
-                  </View>
-                );
-              }
-            }
+          {room.mExtensions?.map((item, index) => {
+            return (
+              <View
+                style={{
+                  marginRight: 10,
+                }}
+                key={index}
+              >
+                <Image
+                  style={{
+                    marginBottom: 10,
+                  }}
+                  source={extension[item]?.image}
+                />
+              </View>
+            );
           })}
         </View>
         <Text
@@ -229,8 +189,57 @@ function RoomDetail({ navigation, route }) {
         >
           Mô tả chi tiết
         </Text>
-
-        <Text style={style.roomDetailText}>{room.mDescription}</Text>
+        <View
+          style={{
+            ...style.horizontal,
+            flexWrap: "wrap",
+            width: "100%",
+            borderWidth: 1,
+            borderColor: "#E5E5E5",
+            borderRadius: 10,
+            padding: 10,
+          }}
+        >
+          <Text style={style.roomDetailText}>{room.mDescription}</Text>
+        </View>
+        <View
+          style={{
+            ...style.horizontal,
+            width: "100%",
+            justifyContent: "center",
+            marginTop: 10,
+            marginBottom: 20,
+          }}
+        >
+          <Pressable
+            style={{
+              ...style.btn,
+              backgroundColor:
+                room.mRenterId === user.user._id ? "#ccc" : "#3772FF",
+            }}
+            onPress={registerRoom}
+          >
+            {room.mRenterId === user.user._id ? (
+              <Text
+                style={{
+                  ...style.btnText,
+                  color: "#fff",
+                }}
+              >
+                Đã đăng ký
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  ...style.btnText,
+                  color: "#fff",
+                }}
+              >
+                Đăng ký phòng
+              </Text>
+            )}
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   ) : (
@@ -300,6 +309,26 @@ const style = StyleSheet.create({
   },
   roomDetailText: {
     fontSize: 14,
+    marginLeft: 5,
+  },
+  btn: {
+    width: "40%",
+    height: 40,
+    borderRadius: 5,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    fontSize: 16,
+    textTransform: "uppercase",
   },
 });
-export default RoomDetail;
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginUserReducer,
+  };
+};
+
+export default connect(mapStateToProps)(RoomDetail);

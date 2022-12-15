@@ -92,8 +92,8 @@ const style = StyleSheet.create({
     height: 44,
     borderRadius: 8,
     backgroundColor: "#3772FF",
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 15,
+    marginBottom: 15,
   },
   PressableSecondary: {
     display: "flex",

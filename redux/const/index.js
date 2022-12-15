@@ -4,3 +4,4 @@ export const SET_FILTER_VALUE = "SET_FILTER_VALUE";
 export const SHOW_FILTER = "SHOW_FILTER";
 export const USER_ROLE = "USER_ROLE";
 export const LOGIN_USER = "LOGIN_USER";
+export const CREATE_NEW_ROOM = "CREATE_NEW_ROOM";

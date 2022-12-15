@@ -5,6 +5,7 @@ import filterValueReducer from "./filterValueReducer";
 import showFilterReducer from "./showFilterReducer";
 import userRoleReducer from "./userRoleReducer";
 import loginUserReducer from "./loginUserReducer";
+import createNewRoomReducer from "./createNewRoomReducer";
 const reducers = combineReducers({
   eventChangeReducer: eventChangeReducer,
   registerPhoneReducer: registerPhoneReducer,
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   showFilterReducer: showFilterReducer,
   userRoleReducer: userRoleReducer,
   loginUserReducer: loginUserReducer,
+  createNewRoomReducer: createNewRoomReducer,
 });
 
 export default reducers;

@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 import { StyleSheet, View, Image, Text, Pressable } from "react-native";
 
-function Navigator({ navigation }) {
+function LeaserNavigator({ navigation }) {
   const user = useSelector((state) => state.loginUserReducer);
   return (
     <View style={style.container}>
@@ -21,7 +21,9 @@ function Navigator({ navigation }) {
       </Pressable>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate(user.user.mRole + "/my-room")}
+        onPress={() => {
+          navigation.navigate("LEASER/electricWater");
+        }}
       >
         <Image
           source={require("../../assets/room.png")}
@@ -30,11 +32,13 @@ function Navigator({ navigation }) {
             height: 23,
           }}
         />
-        <Text>Phòng tôi</Text>
+        <Text>Điện nước</Text>
       </Pressable>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate(user.user.mRole + "/notification")}
+        onPress={() => {
+          navigation.navigate("LEASER/bill");
+        }}
       >
         <Image
           source={require("../../assets/bell.png")}
@@ -43,7 +47,7 @@ function Navigator({ navigation }) {
             height: 24,
           }}
         />
-        <Text>Thông báo</Text>
+        <Text>Hóa đơn</Text>
       </Pressable>
       <Pressable
         style={style.button}
@@ -99,4 +103,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Navigator);
+export default connect(mapStateToProps)(LeaserNavigator);

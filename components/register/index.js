@@ -23,7 +23,6 @@ function Register({ navigation }) {
     NewPassword: "",
     ConfirmPassword: "",
   });
-  console.log(userRole);
   const handleSend = () => {
     if (
       NewPassword.username !== "" &&

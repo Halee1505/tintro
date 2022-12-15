@@ -5,6 +5,7 @@ import {
   SHOW_FILTER,
   USER_ROLE,
   LOGIN_USER,
+  CREATE_NEW_ROOM,
 } from "../const";
 
 export function changeEvent(event) {
@@ -46,5 +47,12 @@ export function loginUser(user) {
   return {
     type: LOGIN_USER,
     payload: user,
+  };
+}
+
+export function createNewRoom(room) {
+  return {
+    type: CREATE_NEW_ROOM,
+    payload: room,
   };
 }

@@ -21,6 +21,14 @@ import LeaserHomePage from "./components/leaserHomePage";
 import RoomDetail from "./components/homePage/roomDetail";
 import AddHome from "./components/leaser/addHome";
 import AddHomeNext from "./components/leaser/addHomeNext";
+import LeaserHomeDetail from "./components/leaserHomePage/leaserHomeDetail";
+import Bill from "./components/leaser/bill";
+import Me from "./components/me";
+import BillDetail from "./components/leaser/bill/billDetail";
+import ElectricWater from "./components/leaser/electricWater";
+import MyRoom from "./components/renter/myRoom";
+import Notification from "./components/renter/notification";
+import ManageRoom from "./components/renter/roomInfo/manageRoom";
 export default function App() {
   return (
     <Provider store={store}>
@@ -29,6 +37,17 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={Welcome}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="me"
+            component={Me}
             options={{
               title: "TINTRO",
 
@@ -128,11 +147,56 @@ export default function App() {
               },
             }}
           />
+
+          <Stack.Screen
+            name="RENTER/my-room"
+            component={MyRoom}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="RENTER/my-room/manage"
+            component={ManageRoom}
+            options={{
+              title: "Quản lý phòng trọ",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="RENTER/notification"
+            component={Notification}
+            options={{
+              title: "TINTRO",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
           <Stack.Screen
             name="LEASER/home-page"
             component={LeaserHomePage}
             options={{
               title: "Phòng trọ của tôi",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/home-page/detail"
+            component={LeaserHomeDetail}
+            options={{
+              title: "Chi tiết phòng trọ",
 
               headerTitleStyle: {
                 fontWeight: "bold",
@@ -155,6 +219,39 @@ export default function App() {
             component={AddHomeNext}
             options={{
               title: "Thêm phòng trọ",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/bill"
+            component={Bill}
+            options={{
+              title: "Hóa đơn",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/electricWater"
+            component={ElectricWater}
+            options={{
+              title: "Thống kê điện nước",
+
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="LEASER/bill/detail"
+            component={BillDetail}
+            options={{
+              title: "Hóa đơn",
 
               headerTitleStyle: {
                 fontWeight: "bold",

@@ -1,5 +1,12 @@
 import { connect } from "react-redux";
-import { View, StyleSheet, BackHandler, ScrollView, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  BackHandler,
+  ScrollView,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import Header from "../header";
 import Navigator from "../navigator";
 import Filter from "./filter";
@@ -41,28 +48,25 @@ function HomePage({ navigation }) {
 
   return (
     <View style={style.container}>
-      <Header />
-      <ScrollView vertical style={style.scrollView}>
-        <View style={style.content}>
-          {roomsList.length > 0 ? (
-            roomsList?.map((room) => {
+      {roomsList.length > 0 && <Header />}
+      {roomsList.length > 0 ? (
+        <ScrollView vertical style={style.scrollView}>
+          <View style={style.content}>
+            {roomsList?.map((room, index) => {
               return (
-                <RoomItem key={room.mId} room={room} navigation={navigation} />
+                <RoomItem
+                  key={room._id + index}
+                  room={room}
+                  navigation={navigation}
+                />
               );
-            })
-          ) : (
-            <Text
-              style={{
-                fontSize: 14,
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              Đang tải...
-            </Text>
-          )}
-        </View>
-      </ScrollView>
+            })}
+          </View>
+        </ScrollView>
+      ) : (
+        <ActivityIndicator size="large" color="#3772FF" />
+      )}
+
       <Navigator navigation={navigation} />
       {isShowFilter ? <Filter /> : null}
     </View>
