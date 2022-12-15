@@ -12,8 +12,9 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { REGISTER_PHONE_NUMBER, USER_ROLE } from "../../redux/const";
 import userApi from "../../api/user";
+import { useEffect } from "react";
 
-function Register({ navigation }) {
+function Register({ route, navigation }) {
   const userRole = useSelector((state) => state.userRoleReducer.role);
   const dispatch = useDispatch();
   const [NewPassword, setNewPassword] = useState({
@@ -23,6 +24,16 @@ function Register({ navigation }) {
     NewPassword: "",
     ConfirmPassword: "",
   });
+
+  useEffect(() => {
+    setNewPassword({
+      username: "",
+      email: "",
+      phone: "",
+      NewPassword: "",
+      ConfirmPassword: "",
+    });
+  }, [route]);
   const handleSend = () => {
     if (
       NewPassword.username !== "" &&
@@ -39,19 +50,16 @@ function Register({ navigation }) {
           type: REGISTER_PHONE_NUMBER,
           payload: NewPassword.phone,
         });
-        userApi
-          .createUser({
+
+        navigation.navigate("otp", {
+          newUser: {
             mUserName: NewPassword.username,
             mEmail: NewPassword.email,
             mPassword: NewPassword.NewPassword,
             mPhoneNumber: NewPassword.phone,
             mRole: userRole,
-          })
-          .then((res) => {
-            console.log(res);
-
-            navigation.navigate("otp");
-          });
+          },
+        });
       }
     }
   };

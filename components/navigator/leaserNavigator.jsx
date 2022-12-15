@@ -8,7 +8,11 @@ function LeaserNavigator({ navigation }) {
     <View style={style.container}>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate(user.user.mRole + "/home-page")}
+        onPress={() =>
+          navigation.navigate("LEASER/home-page", {
+            load: Math.random(),
+          })
+        }
       >
         <Image
           source={require("../../assets/home.png")}

@@ -17,7 +17,9 @@ function ForgotPassWord({ navigation }) {
 
   const handleSend = () => {
     if (forgetData.phoneNumberOrEmail != "") {
-      navigation.navigate("Check-mail");
+      navigation.navigate("Check-mail", {
+        phoneNumberOrEmail: forgetData.phoneNumberOrEmail,
+      });
     }
   };
   return (

@@ -10,9 +10,15 @@ const getNotificationByUserId = async (id) => {
   return response.data;
 };
 
+const createNotification = async (notification) => {
+  const response = await axios.post(`${DOMAIN}/notification`, notification);
+  return response.data;
+};
+
 const notificationApi = {
   getNotificationById,
   getNotificationByUserId,
+  createNotification,
 };
 
 export default notificationApi;

@@ -1,19 +1,41 @@
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TextInput,
+  Alert,
+} from "react-native";
 import { connect } from "react-redux";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import userApi from "../../api/user";
+import { useEffect } from "react";
 
-function Otp({ navigation }) {
+function Otp({ route, navigation }) {
   const phoneNumber = useSelector(
     (state) => state.registerPhoneReducer.phoneNumber
   );
   const [otp, setOtp] = useState({
     otp: "",
   });
-
+  useEffect(() => {
+    setOtp({
+      otp: "",
+    });
+  }, [route]);
   const handleSend = () => {
+    console.log("otp", otp);
     if (otp.otp != "") {
-      navigation.navigate("otp");
+      userApi.createUser(route.params.newUser).then((res) => {
+        console.log(res);
+        Alert.alert("Thông báo", "Tạo tài khoản mới thành công", [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("Home"),
+          },
+        ]);
+      });
     }
   };
   return (
@@ -107,9 +129,8 @@ const style = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "##000",
+    color: "#000",
     justifySelf: "flex-start",
-    width: "100%",
   },
   descriptionText: {
     marginTop: 30,

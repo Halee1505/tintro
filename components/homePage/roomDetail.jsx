@@ -7,6 +7,7 @@ import {
   Dimensions,
   Pressable,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -21,12 +22,15 @@ import { useSelector } from "react-redux";
 function RoomDetail({ navigation, route }) {
   const user = useSelector((state) => state.loginUserReducer);
   const [change, setChange] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { roomId } = route.params;
   const [room, setRoom] = useState({});
   useEffect(() => {
     if (roomId) {
+      setLoading(true);
       roomApi.getRoomById(roomId).then((res) => {
         setRoom(res);
+        setLoading(false);
       });
     }
   }, [route, change]);
@@ -62,6 +66,10 @@ function RoomDetail({ navigation, route }) {
       },
     ]);
   };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
   return Object.keys(room).length > 0 ? (
     <ScrollView style={style.container}>
       <View
@@ -261,6 +269,7 @@ const style = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "#fff",
+    marginBottom: 60,
   },
 
   icon: {

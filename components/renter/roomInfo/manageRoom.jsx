@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from "react-native";
-import Navigator from "../../navigator";
 import roomApi from "../../../api/room";
 import fixRequestApi from "../../../api/fixRequest";
 import { useEffect, useState } from "react";
@@ -39,7 +38,7 @@ const ManageRoom = ({ navigation, route }) => {
           setLoading(false);
         });
     }
-  }, [route.params.userId, change]);
+  }, [route, change]);
 
   useEffect(() => {
     if (room._id) {
@@ -66,9 +65,7 @@ const ManageRoom = ({ navigation, route }) => {
         onPress: () => {
           roomApi
             .updateRoom(roomId, {
-              mRenterId: "",
-              mStatus: "AVAILABLE",
-              mCurPeople: room.mCurPeople - 1,
+              mStatus: "CANCELLED",
             })
             .then((res) => {
               Alert.alert("Thông báo", "Trả phòng thành công");
@@ -170,7 +167,9 @@ const ManageRoom = ({ navigation, route }) => {
                 fontWeight: "bold",
               }}
             >
-              Yêu cầu trả phòng
+              {room.mStatus === "CANCELLED"
+                ? "Đã yêu cầu trả phòng"
+                : " Yêu cầu trả phòng"}
             </Text>
           </Pressable>
         </View>
@@ -296,7 +295,7 @@ const ManageRoom = ({ navigation, route }) => {
                     {fixRequest.mStatus == "PENDING"
                       ? "Đang chờ xử lý"
                       : fixRequest.mStatus == "ACCEPTED"
-                      ? "Đã được xử lý"
+                      ? "Đồng ý sửa"
                       : fixRequest.mStatus == "DONE"
                       ? "Đã hoàn thành"
                       : "Đã bị từ chối"}
@@ -346,7 +345,6 @@ const ManageRoom = ({ navigation, route }) => {
           setShowFixRequest={setShowFixRequest}
         />
       )}
-      <Navigator navigation={navigation} />
     </View>
   );
 };

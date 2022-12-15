@@ -16,10 +16,16 @@ const deleteFixRequest = async (id) => {
   return response.data;
 };
 
+const updateFixRequest = async (id, data) => {
+  const response = await axios.put(`${DOMAIN}/fixRequest/${id}`, data);
+  return response.data;
+};
+
 const fixRequestApi = {
   createFixRequest,
   getFixRequestByRoomId,
   deleteFixRequest,
+  updateFixRequest,
 };
 
 export default fixRequestApi;

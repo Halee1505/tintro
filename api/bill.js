@@ -10,9 +10,15 @@ const updateBill = async (id, data) => {
   return response.data;
 };
 
+const createBill = async (data) => {
+  const response = await axios.post(`${DOMAIN}/bill`, data);
+  return response.data;
+};
+
 const billApi = {
   getBillByRoomId,
   updateBill,
+  createBill,
 };
 
 export default billApi;

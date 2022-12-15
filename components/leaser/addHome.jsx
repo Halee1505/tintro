@@ -12,7 +12,6 @@ import { connect } from "react-redux";
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
-import LeaserNavigator from "../navigator/leaserNavigator";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CREATE_NEW_ROOM } from "../../redux/const";
@@ -353,7 +352,6 @@ const AddHome = ({ navigation }) => {
           </Pressable>
         </View>
       </ScrollView>
-      <LeaserNavigator navigation={navigation} />
     </View>
   );
 };

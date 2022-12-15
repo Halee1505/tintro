@@ -6,13 +6,14 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
+  Alert,
 } from "react-native";
-import { connect } from "react-redux";
 import CheckBox from "expo-checkbox";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import userApi from "../../api/user";
 import { LOGIN_USER } from "../../redux/const";
+import { useEffect } from "react";
 function Login({ navigation }) {
   const userRole = useSelector((state) => state.userRoleReducer.role);
   const [loading, setLoading] = useState(false);
@@ -22,11 +23,20 @@ function Login({ navigation }) {
     password: "",
     remember: false,
   });
+  useEffect(() => {
+    dispatch({ type: LOGIN_USER, payload: {} });
+  }, []);
 
   const handleLogin = () => {
     setLoading(true);
+    setLoginData({
+      phoneNumber: "",
+      password: "",
+      remember: false,
+    });
     if (LoginData.phoneNumber === "" || LoginData.password === "") {
-      alert("Vui lòng nhập đầy đủ thông tin");
+      Alert.alert("Vui lòng nhập đầy đủ thông tin");
+      setLoading(false);
     } else {
       userApi
         .login({
@@ -151,7 +161,13 @@ function Login({ navigation }) {
           >
             Chưa có tài khoản?{"  "}
           </Text>
-          <Pressable onPress={() => navigation.navigate("register")}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("register", {
+                load: Math.random(),
+              })
+            }
+          >
             <Text
               style={{
                 color: "#3772FF",
@@ -161,6 +177,14 @@ function Login({ navigation }) {
             </Text>
           </Pressable>
         </View>
+        <Pressable
+          style={{
+            marginTop: 20,
+          }}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text> Quay lại </Text>
+        </Pressable>
       </View>
     );
   } else {

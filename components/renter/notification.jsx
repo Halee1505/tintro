@@ -1,13 +1,12 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 import notificationApi from "../../api/notification";
 import { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
-import Navigator from "../navigator";
 
-const Notification = ({ navigation }) => {
+const Notification = ({ route, navigation }) => {
   const user = useSelector((state) => state.loginUserReducer);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +17,7 @@ const Notification = ({ navigation }) => {
       setNotifications(res ? res : []);
       setLoading(false);
     });
-  }, [user]);
+  }, [user, route]);
   return (
     <View style={styles.container}>
       <ScrollView
@@ -26,9 +25,38 @@ const Notification = ({ navigation }) => {
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-        {notifications.map((notification) => {
+        {notifications.length == 0 && !loading && (
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: "#3772FF",
+              }}
+            >
+              Không có thông báo nào
+            </Text>
+          </View>
+        )}
+        {notifications?.reverse().map((notification) => {
           return (
-            <View key={notification._id} style={styles.item}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("RENTER/my-room/manageBill", {
+                  userId: notification.mUserId,
+                });
+              }}
+              key={notification._id}
+              style={styles.item}
+            >
               <Icon name="paypal" size={40} color="#000" />
               <View
                 style={{
@@ -69,11 +97,10 @@ const Notification = ({ navigation }) => {
                   {moment(new Date(notification.mCreated)).format("DD/MM/YYYY")}
                 </Text>
               </View>
-            </View>
+            </Pressable>
           );
         })}
       </ScrollView>
-      <Navigator navigation={navigation} />
     </View>
   );
 };

@@ -13,7 +13,6 @@ import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
-import LeaserNavigator from "../navigator/leaserNavigator";
 import roomApi from "../../api/room";
 import { useSelector } from "react-redux";
 
@@ -82,10 +81,13 @@ const AddHomeNext = ({ route, navigation }) => {
         })
         .then((res) => {
           setLoading(false);
-          navigation.navigate("LEASER/home-page");
+          navigation.navigate("LEASER/home-page", {
+            load: Math.random(),
+          });
         })
         .catch((err) => {
           setLoading(false);
+          console.log(err);
           Alert.alert("Thông báo", "Tạo phòng thất bại");
         });
     });
@@ -226,7 +228,6 @@ const AddHomeNext = ({ route, navigation }) => {
           </Text>
         </Pressable>
       </View>
-      <LeaserNavigator navigation={navigation} />
     </View>
   );
 };

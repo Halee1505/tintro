@@ -8,7 +8,11 @@ function Navigator({ navigation }) {
     <View style={style.container}>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate(user.user.mRole + "/home-page")}
+        onPress={() =>
+          navigation.navigate("RENTER/home-page", {
+            load: Math.random(),
+          })
+        }
       >
         <Image
           source={require("../../assets/home.png")}
@@ -21,7 +25,7 @@ function Navigator({ navigation }) {
       </Pressable>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate(user.user.mRole + "/my-room")}
+        onPress={() => navigation.navigate("RENTER/my-room")}
       >
         <Image
           source={require("../../assets/room.png")}
@@ -34,7 +38,11 @@ function Navigator({ navigation }) {
       </Pressable>
       <Pressable
         style={style.button}
-        onPress={() => navigation.navigate(user.user.mRole + "/notification")}
+        onPress={() =>
+          navigation.navigate("RENTER/notification", {
+            load: Math.random(),
+          })
+        }
       >
         <Image
           source={require("../../assets/bell.png")}

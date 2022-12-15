@@ -8,27 +8,25 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useSelector } from "react-redux";
-import LeaserNavigator from "../navigator/leaserNavigator";
 import roomApi from "../../api/room";
 import { useEffect, useState } from "react";
 import { moneyFormatter } from "../../utils/moneyFormatter";
 import Icon from "react-native-vector-icons/FontAwesome";
-function LeaserHomePage({ navigation }) {
+function LeaserHomePage({ route, navigation }) {
   const user = useSelector((state) => state.loginUserReducer);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [reload, setReload] = useState(false);
+  const [filter, setFilter] = useState({});
   useEffect(() => {
     if (user.user) {
-      roomApi.getRoomByLeaserId(user.user._id).then((res) => {
+      setLoading(true);
+      roomApi.getRoomByLeaserId(user.user._id, filter).then((res) => {
         setRooms(res);
         setLoading(false);
       });
     }
-  }, [user, reload]);
-  if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
+  }, [user, filter, route]);
+
   return (
     <View style={styles.container}>
       <View
@@ -69,122 +67,264 @@ function LeaserHomePage({ navigation }) {
           </Text>
         </View>
       </View>
-      <ScrollView
+      <View
         style={{
           width: "100%",
-          marginBottom: 70,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 10,
+          marginBottom: 10,
         }}
-        showsVerticalScrollIndicator={false}
       >
-        {rooms.map((room) => {
-          return (
-            <Pressable
-              onPress={() => {
-                navigation.navigate("LEASER/home-page/detail", {
-                  id: room._id,
-                });
-              }}
-              key={room._id}
-              style={{
-                ...styles.roomItem,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                borderColor:
-                  room.mStatus == "RENTED"
-                    ? "green"
-                    : room.mStatus == "AVAILABLE"
-                    ? "#2F80ED"
-                    : "red",
-              }}
-            >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
+        <Pressable
+          style={
+            !filter
+              ? styles.btnFilterActive
+              : {
+                  ...styles.btnFilter,
+                  borderColor: "#ABB4BD",
+                }
+          }
+          onPress={() => {
+            setFilter({});
+          }}
+        >
+          <Text
+            style={!filter ? styles.btnFilterTextActive : styles.btnFilterText}
+          >
+            Tất cả
+          </Text>
+        </Pressable>
+        <Pressable
+          style={
+            filter.mStatus == "RENTED"
+              ? {
+                  ...styles.btnFilterActive,
+                  backgroundColor: "green",
+                  borderColor: "green",
+                }
+              : {
+                  ...styles.btnFilter,
+                  borderColor: "green",
+                }
+          }
+          onPress={() => {
+            setFilter({
+              mStatus: "RENTED",
+            });
+          }}
+        >
+          <Text
+            style={
+              filter.mStatus == "RENTED"
+                ? {
+                    ...styles.btnFilterTextActive,
+                  }
+                : {
+                    ...styles.btnFilterText,
+                    color: "green",
+                  }
+            }
+          >
+            Đang thuê
+          </Text>
+        </Pressable>
+        <Pressable
+          style={
+            filter.mStatus == "AVAILABLE"
+              ? {
+                  ...styles.btnFilterActive,
+                  backgroundColor: "#2F80ED",
+                  borderColor: "#2F80ED",
+                }
+              : {
+                  ...styles.btnFilter,
+                  borderColor: "#2F80ED",
+                }
+          }
+          onPress={() => {
+            setFilter({
+              mStatus: "AVAILABLE",
+            });
+          }}
+        >
+          <Text
+            style={
+              filter.mStatus == "AVAILABLE"
+                ? {
+                    ...styles.btnFilterTextActive,
+                  }
+                : {
+                    ...styles.btnFilterText,
+                    color: "#2F80ED",
+                  }
+            }
+          >
+            Đang trống
+          </Text>
+        </Pressable>
+        <Pressable
+          style={
+            filter.mStatus == "CANCELLED"
+              ? {
+                  ...styles.btnFilterActive,
+                  backgroundColor: "#E74C3C",
+                  borderColor: "#E74C3C",
+                }
+              : {
+                  ...styles.btnFilter,
+                  borderColor: "#E74C3C",
+                }
+          }
+          onPress={() => {
+            setFilter({
+              mStatus: "CANCELLED",
+            });
+          }}
+        >
+          <Text
+            style={
+              filter.mStatus == "CANCELLED"
+                ? {
+                    ...styles.btnFilterTextActive,
+                  }
+                : {
+                    ...styles.btnFilterText,
+                    color: "#E74C3C",
+                  }
+            }
+          >
+            Trả phòng
+          </Text>
+        </Pressable>
+      </View>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : rooms.length == 0 ? (
+        <View
+          style={{
+            width: "100%",
+            height: 200,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Không có phòng nào
+          </Text>
+        </View>
+      ) : (
+        <ScrollView
+          style={{
+            width: "100%",
+            marginBottom: 70,
+          }}
+          showsVerticalScrollIndicator={false}
+        >
+          {rooms.map((room) => {
+            return (
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("LEASER/home-page/detail", {
+                    id: room._id,
+                  });
                 }}
-              >
-                <Icon name="home" size={50} color="black" />
-                <View
-                  style={{
-                    marginLeft: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 18,
-                    }}
-                  >
-                    {room.mRoomName}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: "#2F80ED",
-                    }}
-                  >
-                    {moneyFormatter(room.mRentPrice)}
-                  </Text>
-                </View>
-              </View>
-              <View
+                key={room._id}
                 style={{
-                  height: 50,
-                  display: "flex",
-                  flexDirection: "column",
+                  ...styles.roomItem,
+                  flexDirection: "row",
                   justifyContent: "space-between",
+                  borderColor:
+                    room.mStatus == "RENTED"
+                      ? "green"
+                      : room.mStatus == "AVAILABLE"
+                      ? "#2F80ED"
+                      : "red",
                 }}
               >
                 <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    alignItems: "flex-end",
-                    alignSelf: "flex-end",
-                    justifyContent: "flex-end",
+                    alignItems: "center",
                   }}
                 >
-                  <Icon name="user" size={16} color="#2F80ED" />
-                  <Text
+                  <Icon name="home" size={50} color="black" />
+                  <View
                     style={{
-                      fontSize: 12,
-                      color: "#2F80ED",
-                      marginLeft: 5,
+                      marginLeft: 10,
                     }}
                   >
-                    {room.mCurPeople}/{room.mMaxPeople}
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                      }}
+                    >
+                      {room.mRoomName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "#2F80ED",
+                      }}
+                    >
+                      {moneyFormatter(room.mRentPrice)}
+                    </Text>
+                  </View>
                 </View>
-                <Text
+                <View
                   style={{
-                    alignSelf: "flex-end",
-                    color:
-                      room.mStatus == "RENTED"
-                        ? "green"
-                        : room.mStatus == "AVAILABLE"
-                        ? "#2F80ED"
-                        : "red",
+                    height: 50,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {room.mStatus == "RENTED"
-                    ? "Đang cho thuê"
-                    : room.mStatus == "AVAILABLE"
-                    ? "Còn trống"
-                    : "Yêu cầu trả phòng"}
-                </Text>
-              </View>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-      <Pressable
-        onPress={() => {
-          setReload(!reload);
-        }}
-        style={styles.loadOverlay}
-      >
-        <Icon name="refresh" size={30} color="white" />
-      </Pressable>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-end",
+                      alignSelf: "flex-end",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Icon name="user" size={16} color="#2F80ED" />
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: "#2F80ED",
+                        marginLeft: 5,
+                      }}
+                    >
+                      {room.mCurPeople}/{room.mMaxPeople}
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      alignSelf: "flex-end",
+                      color:
+                        room.mStatus == "RENTED"
+                          ? "green"
+                          : room.mStatus == "AVAILABLE"
+                          ? "#2F80ED"
+                          : "red",
+                    }}
+                  >
+                    {room.mStatus == "RENTED"
+                      ? "Đang cho thuê"
+                      : room.mStatus == "AVAILABLE"
+                      ? "Còn trống"
+                      : "Yêu cầu trả phòng"}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      )}
       <Pressable
         onPress={() => {
           navigation.navigate("LEASER/add-home");
@@ -193,12 +333,39 @@ function LeaserHomePage({ navigation }) {
       >
         <Text style={styles.addContent}>+</Text>
       </Pressable>
-      <LeaserNavigator navigation={navigation} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  btnFilter: {
+    width: "22%",
+    height: 35,
+    backgroundColor: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    borderWidth: 1,
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  btnFilterActive: {
+    width: "22%",
+    height: 35,
+    display: "flex",
+    justifyContent: "center",
+    borderWidth: 1,
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  btnFilterText: {
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  btnFilterTextActive: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#fff",
+  },
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",

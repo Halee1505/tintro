@@ -16,10 +16,16 @@ const login = async (user) => {
   return response.data;
 };
 
+const changePassword = async (user, password) => {
+  const response = await axios.put(`${DOMAIN}/user/change/${user}`, password);
+  return response.data;
+};
+
 const userApi = {
   getUserById,
   createUser,
   login,
+  changePassword,
 };
 
 export default userApi;

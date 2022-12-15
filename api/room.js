@@ -10,8 +10,8 @@ const getRoomById = async (id) => {
   return response.data;
 };
 
-const getRoomByLeaserId = async (id) => {
-  const response = await axios.get(`${DOMAIN}/room/leaser/${id}`);
+const getRoomByLeaserId = async (id, filter) => {
+  const response = await axios.post(`${DOMAIN}/room/leaser/${id}`, filter);
   return response.data;
 };
 

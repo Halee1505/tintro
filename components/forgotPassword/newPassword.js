@@ -5,12 +5,13 @@ import {
   Pressable,
   Image,
   TextInput,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
-import CheckBox from "expo-checkbox";
 import { useState } from "react";
+import userApi from "../../api/user";
 
-function NewPassword({ navigation }) {
+function NewPassword({ route, navigation }) {
   const [NewPassword, setNewPassword] = useState({
     NewPassword: "",
     ConfirmPassword: "",
@@ -18,7 +19,25 @@ function NewPassword({ navigation }) {
 
   const handleSend = () => {
     if (NewPassword.phoneNumberOrEmail != "") {
-      navigation.navigate("Check-mail");
+      if (NewPassword.NewPassword != NewPassword.ConfirmPassword) {
+        Alert.alert("Mật khẩu không khớp");
+        return;
+      }
+      userApi
+        .changePassword(route.params.phoneNumberOrEmail, {
+          mPassword: NewPassword.NewPassword,
+        })
+        .then((res) => {
+          if (res.message == "Change password successfully") {
+            Alert.alert("Đổi mật khẩu thành công");
+            navigation.navigate("Home");
+          } else {
+            Alert.alert(
+              "Đổi mật khẩu thất bại",
+              "Vui lòng kiểm tra lại thông tin"
+            );
+          }
+        });
     }
   };
   return (

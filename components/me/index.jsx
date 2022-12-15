@@ -1,11 +1,13 @@
 import { Image, Pressable, Text, View } from "react-native";
-import Navigator from "../navigator";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { LOGIN_USER } from "../../redux/const";
 
 const Me = ({ navigation }) => {
   const user = useSelector((state) => state.loginUserReducer);
+  const dispatch = useDispatch();
+
   return (
     <View
       style={{
@@ -84,7 +86,10 @@ const Me = ({ navigation }) => {
           paddingVertical: 10,
           marginTop: 20,
         }}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => {
+          dispatch({ type: LOGIN_USER, payload: {} });
+          navigation.navigate("Home");
+        }}
       >
         <Icon name="sign-out" color="black" size={40} />
         <Text
@@ -107,7 +112,6 @@ const Me = ({ navigation }) => {
           size={20}
         />
       </Pressable>
-      <Navigator navigation={navigation} />
     </View>
   );
 };
@@ -117,5 +121,9 @@ const mapStateToProps = (state) => {
     user: state.loginUserReducer,
   };
 };
-
-export default connect(mapStateToProps)(Me);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch(loginUserReducer(user)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Me);

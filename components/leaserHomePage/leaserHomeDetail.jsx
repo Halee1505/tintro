@@ -11,7 +11,6 @@ import {
 import roomApi from "../../api/room";
 import { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import LeaserNavigator from "../navigator/leaserNavigator";
 import moment from "moment";
 import { extension } from "../../utils/extension";
 
@@ -52,6 +51,13 @@ const LeaserHomeDetail = ({ route, navigation }) => {
           paddingHorizontal: 10,
           paddingVertical: 10,
         }}
+        onPress={() =>
+          navigation.navigate("LEASER/home-page/detail/modify", {
+            id: room._id,
+            mStatus: room.mStatus,
+            mCurPeople: room.mCurPeople,
+          })
+        }
       >
         <Text
           style={{
@@ -222,7 +228,6 @@ const LeaserHomeDetail = ({ route, navigation }) => {
           </View>
         </View>
       </ScrollView>
-      <LeaserNavigator navigation={navigation} />
     </View>
   );
 };

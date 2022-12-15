@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 
-function CheckMail({ navigation }) {
+function CheckMail({ route, navigation }) {
   return (
     <View style={style.container}>
       <Image
@@ -14,12 +14,16 @@ function CheckMail({ navigation }) {
       <Text style={style.descriptionText}>
         Chúng tôi đã gửi mật khẩu vào email mà bạn đã đăng ký.{" "}
       </Text>
-      <Pressable style={style.PressablePrimary}>
+      <Pressable style={style.PressablePrimary} disabled={true}>
         <Text style={style.ButtonText}>Đi đến hộp thư</Text>
       </Pressable>
       <Pressable
         style={style.PressablePrimary}
-        onPress={() => navigation.navigate("new-password")}
+        onPress={() =>
+          navigation.navigate("new-password", {
+            phoneNumberOrEmail: route.params.phoneNumberOrEmail,
+          })
+        }
       >
         <Text style={style.ButtonText}>Đặt lại mật khẩu</Text>
       </Pressable>

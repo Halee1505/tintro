@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Header from "../header";
-import Navigator from "../navigator";
 import Filter from "./filter";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -16,13 +15,13 @@ import { SHOW_FILTER } from "../../redux/const";
 import roomApi from "../../api/room";
 import RoomItem from "./roomItem";
 
-function HomePage({ navigation }) {
+function HomePage({ route, navigation }) {
   const [roomsList, setRoomsList] = useState([]);
   useEffect(() => {
     roomApi.getRooms().then((res) => {
       setRoomsList(res);
     });
-  }, []);
+  }, [route]);
   const dispatch = useDispatch();
   const isShowFilter = useSelector(
     (state) => state.showFilterReducer.isShowFilter
@@ -67,7 +66,6 @@ function HomePage({ navigation }) {
         <ActivityIndicator size="large" color="#3772FF" />
       )}
 
-      <Navigator navigation={navigation} />
       {isShowFilter ? <Filter /> : null}
     </View>
   );

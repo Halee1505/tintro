@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Navigator from "../navigator";
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 const MyRoom = ({ navigation }) => {
@@ -10,8 +9,9 @@ const MyRoom = ({ navigation }) => {
       <Pressable
         style={styles.overlay}
         onPress={() =>
-          navigation.navigate("RENTER/my-room/manage", {
+          navigation.navigate("RENTER/my-room/manageRoom", {
             userId: user.user._id,
+            load: Math.random(),
           })
         }
       >
@@ -34,7 +34,14 @@ const MyRoom = ({ navigation }) => {
           size={30}
         />
       </Pressable>
-      <Pressable style={styles.overlay}>
+      <Pressable
+        style={styles.overlay}
+        onPress={() => {
+          navigation.navigate("RENTER/electricWater", {
+            userId: user.user._id,
+          });
+        }}
+      >
         <Icon
           name="shower"
           size={30}
@@ -54,7 +61,14 @@ const MyRoom = ({ navigation }) => {
           size={30}
         />
       </Pressable>
-      <Pressable style={styles.overlay}>
+      <Pressable
+        style={styles.overlay}
+        onPress={() => {
+          navigation.navigate("RENTER/my-room/manageBill", {
+            userId: user.user._id,
+          });
+        }}
+      >
         <Icon
           name="paypal"
           size={30}
@@ -74,7 +88,6 @@ const MyRoom = ({ navigation }) => {
           size={30}
         />
       </Pressable>
-      <Navigator navigation={navigation} />
     </View>
   );
 };

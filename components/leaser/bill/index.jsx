@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useSelector } from "react-redux";
-import LeaserNavigator from "../../navigator/leaserNavigator";
 import roomApi from "../../../api/room";
 import { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -83,8 +82,6 @@ function Bill({ navigation }) {
           );
         })}
       </ScrollView>
-
-      <LeaserNavigator navigation={navigation} />
     </View>
   );
 }
