@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 import { StyleSheet, View, Image, Text, Pressable } from "react-native";
-
-function Navigator({ navigation }) {
+function Navigator({ state, navigation }) {
   const user = useSelector((state) => state.loginUserReducer);
+
   return (
     <View style={style.container}>
       <Pressable

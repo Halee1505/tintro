@@ -14,7 +14,7 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import userApi from "../../api/user";
 import { LOGIN_USER } from "../../redux/const";
 import { useEffect } from "react";
-function Login({ navigation }) {
+function Login({ route, navigation }) {
   const userRole = useSelector((state) => state.userRoleReducer.role);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -25,8 +25,7 @@ function Login({ navigation }) {
   });
   useEffect(() => {
     dispatch({ type: LOGIN_USER, payload: {} });
-  }, []);
-
+  }, [route]);
   const handleLogin = () => {
     setLoading(true);
     setLoginData({
@@ -177,14 +176,14 @@ function Login({ navigation }) {
             </Text>
           </Pressable>
         </View>
-        <Pressable
+        {/* <Pressable
           style={{
             marginTop: 20,
           }}
           onPress={() => navigation.navigate("Home")}
         >
           <Text> Quay lại </Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     );
   } else {

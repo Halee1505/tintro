@@ -57,7 +57,6 @@ const ElectricWater = ({ route, navigation }) => {
     }
   }, [room]);
 
-  console.log(bill);
   return (
     <View style={styles.container}>
       {!loading ? (

@@ -81,6 +81,7 @@ const AddHomeNext = ({ route, navigation }) => {
         })
         .then((res) => {
           setLoading(false);
+          Alert.alert("Thông báo", "Tạo phòng thành công");
           navigation.navigate("LEASER/home-page", {
             load: Math.random(),
           });

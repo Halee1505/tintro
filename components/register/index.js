@@ -131,6 +131,7 @@ function Register({ route, navigation }) {
           alignSelf: "flex-end",
           justifySelf: "flex-end",
           flexWrap: "wrap",
+          marginTop: 15,
         }}
       >
         <Text

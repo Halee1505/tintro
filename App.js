@@ -3,7 +3,8 @@ import store from "./redux/Stores";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import { useEffect, useRef } from "react";
+import { BackHandler } from "react-native";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 import Navigator from "./components/navigator";
@@ -84,6 +85,7 @@ export default function App() {
                   fontWeight: "bold",
                 },
               }}
+              initialParams={{ change: Math.random() }}
             />
             <Tab.Screen
               name="forgot-password"

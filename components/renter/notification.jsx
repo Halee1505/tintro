@@ -14,7 +14,7 @@ const Notification = ({ route, navigation }) => {
     if (!user.user._id) return;
     setLoading(true);
     notificationApi.getNotificationByUserId(user.user._id).then((res) => {
-      setNotifications(res ? res : []);
+      setNotifications(res ? res.reverse() : []);
       setLoading(false);
     });
   }, [user, route]);
@@ -46,7 +46,7 @@ const Notification = ({ route, navigation }) => {
             </Text>
           </View>
         )}
-        {notifications?.reverse().map((notification) => {
+        {notifications.map((notification) => {
           return (
             <Pressable
               onPress={() => {

@@ -14,6 +14,7 @@ import DateTimePicker, {
 import roomApi from "../../../api/room";
 import billApi from "../../../api/bill";
 import notificationApi from "../../../api/notification";
+import { moneyFormatter } from "../../../utils/moneyFormatter";
 
 const AddBill = ({ change, roomId, userId, setShowAddBill, setChange }) => {
   const [showDate, setShowDate] = useState(false);
@@ -209,7 +210,7 @@ const AddBill = ({ change, roomId, userId, setShowAddBill, setChange }) => {
                     height: 40,
                   }}
                 >
-                  {room.mRentPrice}
+                  {moneyFormatter(room.mRentPrice)}
                 </Text>
               </View>
             </View>
@@ -278,7 +279,9 @@ const AddBill = ({ change, roomId, userId, setShowAddBill, setChange }) => {
                     height: 40,
                   }}
                 >
-                  {billInfo.mElectricCount * Number(room.mElectricityPrice)}
+                  {moneyFormatter(
+                    billInfo.mElectricCount * Number(room.mElectricityPrice)
+                  )}
                 </Text>
               </View>
             </View>
@@ -345,7 +348,9 @@ const AddBill = ({ change, roomId, userId, setShowAddBill, setChange }) => {
                       height: 40,
                     }}
                   >
-                    {billInfo.mWaterCount * Number(room.mWaterPrice)}
+                    {moneyFormatter(
+                      billInfo.mWaterCount * Number(room.mWaterPrice)
+                    )}
                   </Text>
                 </View>
               </View>

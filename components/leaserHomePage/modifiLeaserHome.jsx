@@ -185,6 +185,19 @@ const ModifyLeaserHome = ({ route }) => {
               justifyContent: "space-between",
             }}
           >
+            {fixRequest.length === 0 && (
+              <Text
+                style={{
+                  ...styles.itemText,
+                  color: "#000",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  width: "100%",
+                }}
+              >
+                Không có yêu cầu sửa chữa
+              </Text>
+            )}
             {fixRequest.map((fixRequest) => {
               return (
                 <Pressable

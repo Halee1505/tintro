@@ -7,6 +7,7 @@ const ManageBill = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (route.params.userId) {
+      console.log(route.params.userId);
       setLoading(true);
       roomApi
         .getRoomByRenterId(route.params.userId)
@@ -15,6 +16,7 @@ const ManageBill = ({ navigation, route }) => {
             console.log("2");
             setRoom(res);
             setLoading(false);
+            clearTimeout(timeout);
           } else {
             console.log("3");
             setLoading(false);
@@ -26,8 +28,13 @@ const ManageBill = ({ navigation, route }) => {
           console.log("4");
           setLoading(false);
         });
+      const timeout = setTimeout(() => {
+        setLoading(false);
+        Alert.alert("Thông báo", "Bạn chưa có phòng nào");
+        navigation.navigate("RENTER/my-room");
+      }, 10000);
     }
-  }, [route.params.userId]);
+  }, [route]);
   return loading ? (
     <ActivityIndicator size="large" color="#0000ff" />
   ) : (

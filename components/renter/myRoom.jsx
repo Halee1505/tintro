@@ -66,6 +66,7 @@ const MyRoom = ({ navigation }) => {
         onPress={() => {
           navigation.navigate("RENTER/my-room/manageBill", {
             userId: user.user._id,
+            load: Math.random(),
           });
         }}
       >
