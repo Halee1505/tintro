@@ -53,11 +53,14 @@ function HomePage({ route, navigation }) {
           <View style={style.content}>
             {roomsList?.map((room, index) => {
               return (
-                <RoomItem
+                <View
                   key={room._id + index}
-                  room={room}
-                  navigation={navigation}
-                />
+                  style={{
+                    width: "48%",
+                  }}
+                >
+                  <RoomItem room={room} navigation={navigation} />
+                </View>
               );
             })}
           </View>

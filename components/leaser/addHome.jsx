@@ -125,7 +125,7 @@ const AddHome = ({ navigation }) => {
           </View>
 
           <View style={styles.roomItem}>
-            <Text>Diện tích</Text>
+            <Text>Diện tích(m2)</Text>
             <TextInput
               style={styles.roomInput}
               placeholder="Ví dụ: 20"
@@ -136,7 +136,7 @@ const AddHome = ({ navigation }) => {
             />
           </View>
           <View style={styles.roomItem}>
-            <Text>Giá thuê</Text>
+            <Text>Giá thuê(vnđ)</Text>
             <TextInput
               style={styles.roomInput}
               placeholder="Ví dụ: 2000000"

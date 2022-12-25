@@ -1,9 +1,23 @@
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 import { StyleSheet, View, Image, Text, Pressable } from "react-native";
-
+import { useEffect, useRef } from "react";
+import { BackHandler } from "react-native";
 function LeaserNavigator({ navigation }) {
   const user = useSelector((state) => state.loginUserReducer);
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={style.container}>
       <Pressable

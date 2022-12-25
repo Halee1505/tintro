@@ -298,7 +298,14 @@ function Filter() {
             </Pressable>
             <Pressable
               style={style.buttonPrimary}
-              onPress={() => console.log(filterValue)}
+              onPress={() => {
+                console.log(filterValue);
+
+                dispatch({
+                  type: SHOW_FILTER,
+                  payload: false,
+                });
+              }}
             >
               <Text style={style.ButtonText}>Áp dụng</Text>
             </Pressable>
@@ -320,7 +327,7 @@ const style = StyleSheet.create({
   },
   container: {
     position: "absolute",
-    top: "35%",
+    top: "25%",
     bottom: 0,
     left: 0,
     right: 0,
@@ -330,6 +337,7 @@ const style = StyleSheet.create({
   },
   filterOverlay: {
     padding: 20,
+    marginBottom: 70,
   },
   text: {
     fontSize: 18,
@@ -360,6 +368,7 @@ const style = StyleSheet.create({
     width: "90%",
     marginLeft: "5%",
     marginTop: 10,
+    marginBottom: 70,
   },
   buttonPrimary: {
     display: "flex",

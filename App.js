@@ -1,12 +1,10 @@
 import { Provider } from "react-redux";
+// import "react-native-gesture-handler";
 import store from "./redux/Stores";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useEffect, useRef } from "react";
-import { BackHandler } from "react-native";
+
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 import Navigator from "./components/navigator";
 import LeaserNavigator from "./components/navigator/leaserNavigator";
 //import components
@@ -40,6 +38,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Tab.Navigator
+          detachInactiveScreens={false}
           tabBar={(props) => {
             if (store.getState().loginUserReducer.user.mRole === "LEASER") {
               return <LeaserNavigator {...props} />;

@@ -79,11 +79,15 @@ function LeaserHomePage({ route, navigation }) {
       >
         <Pressable
           style={
-            !filter
-              ? styles.btnFilterActive
+            !filter.mStatus
+              ? {
+                  ...styles.btnFilterActive,
+                  backgroundColor: "#ABB4BD",
+                  borderColor: "#ABB4BD",
+                }
               : {
                   ...styles.btnFilter,
-                  borderColor: "#ABB4BD",
+                  color: "#ABB4BD",
                 }
           }
           onPress={() => {
@@ -91,7 +95,16 @@ function LeaserHomePage({ route, navigation }) {
           }}
         >
           <Text
-            style={!filter ? styles.btnFilterTextActive : styles.btnFilterText}
+            style={
+              !filter.mStatus
+                ? {
+                    ...styles.btnFilterTextActive,
+                  }
+                : {
+                    ...styles.btnFilterText,
+                    color: "#ABB4BD",
+                  }
+            }
           >
             Tất cả
           </Text>
@@ -161,7 +174,7 @@ function LeaserHomePage({ route, navigation }) {
                   }
             }
           >
-            Đang trống
+            Còn trống
           </Text>
         </Pressable>
         <Pressable
